@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
-import { boolean } from "zod";
+import { boolean, maxLength, minLength } from "zod";
 
 const studentSchema = new mongoose.Schema(
     {
@@ -8,7 +8,13 @@ const studentSchema = new mongoose.Schema(
         last_name: {type: String, required: true, trim: true},
         password: {type: String, required: true},
         date_of_birth: {type: Date},
-        student_status:{type: boolean, default: true}
+        student_status:{type: boolean, default: true},
+        mobile: {type: String, maxLength: 13,minLength:10, unique:true},
+        email: {type: String, unique: true },
+        
+    },
+    {
+        timestamps: true
     }
 );
 
