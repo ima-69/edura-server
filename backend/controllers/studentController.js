@@ -15,17 +15,44 @@ const studentDetails = async (req, res) => {
     }
     res.status(200).json({
         message: "student details successfully",
-        student: {
-            id: student._id,
-            first_name: student.first_name,
-            last_name: student.last_name,
-            mobile: student.mobile,
-            student_status: student.student_status,
-            date_of_birth: student.date_of_birth,
-            created: student.createdAt,
+        data: {
+            student: {
+                id: student._id,
+                first_name: student.first_name,
+                last_name: student.last_name,
+                mobile: student.mobile,
+                student_status: student.student_status,
+                date_of_birth: student.date_of_birth,
+                created: student.createdAt,
+            }
         }
+
     })
 
 }
 
-export {studentDetails}
+const allStudents = async (req, res) => {
+    const students = await Student.find();
+    if(!students){
+        res.status(200).json({
+            message: "students not found"
+        })
+    }
+
+    const studentArray = students.map((student) => ({
+        id: student._id,
+        first_name: student.first_name,
+        last_name: student.last_name,
+        mobile: student.mobile,
+        student_status: student.student_status,
+        date_of_birth: student.date_of_birth,
+        created: student.createdAt,
+    }))
+
+    res.status(200).json({
+        message: "all student details",
+        data: studentArray,
+    })
+}
+
+export {studentDetails, allStudents}
