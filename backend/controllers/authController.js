@@ -93,7 +93,7 @@ const studentLogin = async(req,res) => {
         if(k){
             // create token
             const token = studentToken(student);
-            res.status(201).json({
+            res.status(200).json({
                 message: "student login success",
                 token,
                 student: {
@@ -123,7 +123,17 @@ const adminLogin = async(req,res) => {
     if(!admin) {
         throw new AppError(tmp.error.message,400);
     }
+    const token = adminToken(admin);
+    res.status(200).json({
+        message: "admin login success",
+        token,
+        admin: {
+            id: admin._id,
+            email: admin.email,
+            first_name: admin.name,
+        }
+    })
 
 }
 
-export {studentRegister, studentLogin}
+export {studentRegister, studentLogin, adminLogin}
