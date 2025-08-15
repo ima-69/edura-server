@@ -70,15 +70,18 @@ const studentRegister = async(req,res) => {
     res.status(201).json({
         message: "student register success",
         token,
-        student: {
-            id: student._id,
-            email: student.email,
-            first_name: student.first_name,
-            last_name: student.last_name,
-            mobile: student.mobile,
-            student_status: student.student_status,
-            role:"student",
+        data: {
+            student: {
+                id: student._id,
+                email: student.email,
+                first_name: student.first_name,
+                last_name: student.last_name,
+                mobile: student.mobile,
+                student_status: student.student_status,
+                role:"student",
+            }
         }
+
     })
 }
 
@@ -98,15 +101,18 @@ const studentLogin = async(req,res) => {
             res.status(200).json({
                 message: "student login success",
                 token,
-                student: {
-                    id: student._id,
-                    email: tmp.data.email,
-                    first_name: tmp.data.email,
-                    last_name: tmp.data.email,
-                    mobile: tmp.data.email,
-                    student_status: tmp.data.email,
-                    role: "student",
+                data: {
+                    student: {
+                        id: student._id,
+                        email: tmp.data.email,
+                        first_name: tmp.data.email,
+                        last_name: tmp.data.email,
+                        mobile: tmp.data.email,
+                        student_status: tmp.data.email,
+                        role: "student",
+                    }
                 }
+
             })
         }else{
             throw new AppError(tmp.error.message,400);
@@ -129,10 +135,12 @@ const adminLogin = async(req,res) => {
     res.status(200).json({
         message: "admin login success",
         token,
-        admin: {
-            id: admin._id,
-            email: admin.email,
-            first_name: admin.name,
+        data: {
+            admin: {
+                id: admin._id,
+                email: admin.email,
+                first_name: admin.name,
+            }
         }
     })
 
@@ -145,15 +153,18 @@ const student = async(req,res) => {
     if(student) {
         res.status(200).json({
             message: "student data",
-            student: {
-                id: student._id,
-                email: student.email,
-                first_name: student.first_name,
-                last_name: student.last_name,
-                mobile: student.mobile,
-                student_status: student.student_status,
-                role: "student",
+            data: {
+                student: {
+                    id: student._id,
+                    email: student.email,
+                    first_name: student.first_name,
+                    last_name: student.last_name,
+                    mobile: student.mobile,
+                    student_status: student.student_status,
+                    role: "student",
+                }
             }
+
         })
     }
 }
