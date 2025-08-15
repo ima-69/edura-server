@@ -32,11 +32,28 @@ const studentDetails = async (req, res) => {
 }
 
 const allStudents = async (req, res) => {
-    const students = await Student.find();
-    if(!students){
-        res.status(200).json({
+    const limit = parseInt(req.query.l, 10);
+    const page = parseInt(req.query.p);
+    let students;
+
+    if (limit && limit > 0) {
+        const limit = 10;
+        const skip = (page - 1) * limit;
+
+        const totalStudents = await Student.countDocuments();
+        const students = await Student.find()
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 });
+        //students = await Student.find().limit(limit);
+    } else {
+        students = await Student.find();
+    }
+
+    if (!students || students.length === 0) {
+        return res.status(404).json({
             message: "students not found"
-        })
+        });
     }
 
     const studentArray = students.map((student) => ({
