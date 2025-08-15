@@ -136,4 +136,23 @@ const adminLogin = async(req,res) => {
 
 }
 
-export {studentRegister, studentLogin, adminLogin}
+const student = async(req,res) => {
+    const id = req.body.id;
+    const student = await Student.findById(id).select("email first_name last_name mobile");
+    if(student) {
+        res.status(200).json({
+            message: "student data",
+            student: {
+                id: student._id,
+                email: student.email,
+                first_name: student.first_name,
+                last_name: student.last_name,
+                mobile: student.mobile,
+                student_status: student.student_status,
+                role: "student",
+            }
+        })
+    }
+}
+
+export {studentRegister, studentLogin, adminLogin, student}
