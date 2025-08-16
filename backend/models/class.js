@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {float32} from "zod";
 
 const classSchema =new mongoose.Schema(
     {
@@ -16,9 +17,12 @@ const classSchema =new mongoose.Schema(
         categories: {
             type: Array
         },
-        class_ststus: {
+        class_status: {
             type: Boolean,
             default: true
+        },
+        price: {
+            type: float32()
         }
     },
     {
