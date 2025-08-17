@@ -30,4 +30,4 @@ const classSchema =new mongoose.Schema(
     }
 )
 
-export const Class = mongoose.Model("Class",classSchema);
+export const Class = mongoose.model("Class",classSchema);
