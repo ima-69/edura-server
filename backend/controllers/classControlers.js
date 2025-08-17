@@ -13,8 +13,8 @@ const createClassSchema = z.object({
 const createClass = async (req, res) => {
     try{
         const newClass = createClassSchema.safeParse(req.body);
-
-        const class_ = await Class.create(newClass);
+        console.log(newClass);
+        const class_ = await Class.create(newClass.data);
 
         res.status(201).json({
             message: "student register success",
@@ -57,14 +57,14 @@ const updateClass = async (req, res) => {
                 "message": "Invalid inputs"
             })
         }
-        const id = req.query.id;
+        const id = req.query.class_id;
         if(!id){
             res.status(400).json({
                 "message": "id is required"
             })
         }
 
-        const updateClass = await Class.findByIdAndUpdate(id, passSchema,{new: true});
+        const updateClass = await Class.findByIdAndUpdate(id, passSchema.data,{new: true});
         if (!updateClass) {
             res.status(404).json({
                 "message": "class not found"
@@ -109,6 +109,19 @@ const allClasses = async (req, res) => {
             created: class_.createdAt,
             updated: class_.updatedAt,
         }))
+
+        if (classArray.length === 0) {
+            res.status(200).json({
+                "message": "Classes is empty"
+            })
+        }
+
+        res.status(200).json({
+            "message": "Class list ",
+            "data": {
+                classArray
+            }
+        })
     }catch(e){
         console.log(e);
         res.status(500).json({
@@ -120,7 +133,7 @@ const allClasses = async (req, res) => {
 
 const changeClassStatus = async (req, res) => {
     try {
-        const id = req.query.id;
+        const id = req.query.class_id;
         if (!id) {
             res.status(400).json({
                 "message": "class id is required"
@@ -158,7 +171,7 @@ const changeClassStatus = async (req, res) => {
 
 const deleteClass = async (req, res) => {
     try {
-        const id = req.query.id;
+        const id = req.query.class_id;
         if (!id) {
             res.status(400).json({
                 "message": "class id is required",
