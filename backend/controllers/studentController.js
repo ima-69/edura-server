@@ -1,6 +1,7 @@
 
 import {Student} from "../models/student.js";
 import {z} from "zod";
+import e from "express";
 
 
 const updateSchema = z.object({
@@ -42,7 +43,8 @@ const studentDetails = async (req, res) => {
     }catch(err) {
         console.log(err);
         res.status(500).json({
-            "message": "Internal server error"
+            "message": "Internal server error",
+            "error": err.message
         })
     }
 
@@ -98,7 +100,8 @@ const allStudents = async (req, res) => {
     } catch (e) {
         console.error(e);
         res.status(500).json({
-            message: "Internal Server Error"
+            message: "Internal Server Error",
+            "error": e.message
         });
     }
 };
@@ -153,7 +156,8 @@ const updateStudent = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({
-            message: "Internal server error"
+            message: "Internal server error",
+            "error": err.message
         });
     }
 }
@@ -183,6 +187,7 @@ const deleteStudent = async (req, res) => {
         console.error(e);
         return res.status(500).json({
             message: "Internal server error",
+            "error": e.message
         });
     }
 };
@@ -229,7 +234,8 @@ const changeStudentStatus = async (req, res) => {
     }catch(e){
         console.log(e);
         res.status(500).json({
-            "message": "Internal server error"
+            "message": "Internal server error",
+            "error": e.message
         })
     }
 }
