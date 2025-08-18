@@ -90,7 +90,7 @@ const updateClass = async (req, res) => {
         console.log(e);
         res.status(500).json({
             "message": "Internal Server Error",
-            "error": e
+            "error": e.message
         })
     }
 }
@@ -126,7 +126,7 @@ const allClasses = async (req, res) => {
         console.log(e);
         res.status(500).json({
             "message": "Internal Server Error",
-            "error": e
+            "error": e.message
         })
     }
 }
@@ -164,7 +164,7 @@ const changeClassStatus = async (req, res) => {
     }catch(e){
         res.status(500).json({
             "message": "Internal Server Error",
-            "error": e
+            "error": e.message
         })
     }
 }
@@ -191,7 +191,7 @@ const deleteClass = async (req, res) => {
         console.log(e);
         return res.status(500).json({
             "message": "Internal Server Error",
-            "error": e
+            "error": e.message
         })
     }
 }
