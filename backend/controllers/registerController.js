@@ -1,5 +1,6 @@
 import {Register} from "../models/register.js";
 import {z} from "zod"
+import mongoose from "mongoose";
 
 const createRegister = z.object({
     student_id: z.string(),
@@ -51,13 +52,10 @@ const updateRegister = async(req,res) => {
     try {
         const id = req.body.id;
 
-        if (!id){
-            res.status(400).json({
-
-                "message": "id (student) is required"
-
-            })
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid student id" });
         }
+
         const registerSafeParse = createRegister.safeParse(req.body);
         if(!registerSafeParse){
             res.status(400).json({
