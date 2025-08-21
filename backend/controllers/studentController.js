@@ -2,6 +2,7 @@
 import {Student} from "../models/student.js";
 import {z} from "zod";
 import e from "express";
+import mongoose from "mongoose";
 
 
 const updateSchema = z.object({
@@ -240,5 +241,31 @@ const changeStudentStatus = async (req, res) => {
     }
 }
 
+const findStudentById = async(req,res) => {
+    const id = req.query.id;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid student id" });
+    }
+    console.log(id)
+    const student = await Student.findById(id).select("email first_name last_name mobile");
+    if(student) {
+        res.status(200).json({
+            message: "student data",
+            data: {
+                student: {
+                    id: student._id,
+                    email: student.email,
+                    first_name: student.first_name,
+                    last_name: student.last_name,
+                    mobile: student.mobile,
+                    student_status: student.student_status,
+                    role: "student",
+                }
+            }
 
-export {studentDetails, allStudents,updateStudent,deleteStudent,changeStudentStatus}
+        })
+    }
+}
+
+
+export {studentDetails, allStudents,updateStudent,deleteStudent,changeStudentStatus, findStudentById}
