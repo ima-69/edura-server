@@ -83,6 +83,4 @@ const updateRegister = async(req,res) => {
             "error": e.message,
         })
     }
-
-
 }
