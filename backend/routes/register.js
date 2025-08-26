@@ -13,5 +13,7 @@ router.put("/updateRegister",auth(true), asyncHandler(updateRegister));
 router.delete("/deleteRegistert",auth(true),asyncHandler(deleteRegisterClassByRegisterId));
 router.get("/registerClassFindId",auth(true),asyncHandler(registerClassByFindClassId));
 
+export default router;
+
 
 
