@@ -207,3 +207,5 @@ const deleteRegisterClassByRegisterId = async(req,res) => {
         })
     }
 }
+
+export {createRegister,updateRegister,registerClassByFindClassId, registerClassByFindStudentId, getAllRegisters, deleteRegisterClassByRegisterId};
