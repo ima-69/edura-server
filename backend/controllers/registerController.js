@@ -53,7 +53,7 @@ const updateRegister = async(req,res) => {
         const id = req.body.id;
 
         if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid student id" });
+            return res.status(400).json({ message: "Invalid id" });
         }
 
         const registerSafeParse = createRegister.safeParse(req.body);
@@ -80,6 +80,24 @@ const updateRegister = async(req,res) => {
         console.log(e);
         res.status(500).json({
             "message": "invalid inputs",
+            "error": e.message,
+        })
+    }
+}
+
+// get data using class id
+const registerClassByClassId = async(req,res) => {
+    try {
+        const id = req.body.class_id;
+
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid class id" });
+        }
+    }
+    catch (e) {
+        console.log(e);
+        res.status(500).json({
+            "message": "internal server error",
             "error": e.message,
         })
     }
