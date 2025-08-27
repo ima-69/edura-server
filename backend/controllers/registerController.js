@@ -198,6 +198,7 @@ const deleteRegisterSchema = z.object({
     class_id: z.array(z.string()),
 });
 
+
 const deleteRegisterClassByRegisterId = async (req, res) => {
     try {
         const studentId = req.query.student_id;
@@ -217,14 +218,14 @@ const deleteRegisterClassByRegisterId = async (req, res) => {
         const { class_id } = passSchema.data;
 
         const result = await Register.findOneAndUpdate(
-            { student_id: studentId },
-            { $pull: { class_id: { $in: class_id } } },
-            { new: true }
+            { student_id: studentId },                  // search by student_id
+            { $pull: { class_id: { $in: class_id } } }, // remove class_ids
+            { new: true }                               // return updated doc
         );
 
         if (!result) {
             return res.status(404).json({
-                message: "Register not found or update failed"
+                message: "Register not found or delete failed"
             });
         }
 
@@ -245,6 +246,7 @@ const deleteRegisterClassByRegisterId = async (req, res) => {
         });
     }
 };
+
 
 
 export {creteStudentRegister,updateRegister,registerClassByFindClassId, registerClassByFindStudentId, getAllRegisters, deleteRegisterClassByRegisterId};
