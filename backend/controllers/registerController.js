@@ -1,7 +1,7 @@
 import {Register} from "../models/register.js";
 import {z} from "zod"
 import mongoose from "mongoose";
-import {Chapters} from "../models/chapters";
+import {Chapters} from "../models/chapters.js";
 
 const createRegister = z.object({
     student_id: z.string(),
