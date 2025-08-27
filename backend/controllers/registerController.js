@@ -271,4 +271,4 @@ const deleteRegisterClassByRegisterId = async (req, res) => {
 
 
 
-export {creteStudentRegister,updateRegister,registerClassByFindClassId, registerClassByFindStudentId, getAllRegisters, deleteRegisterClassByRegisterId};
+export { creteStudentRegister,updateRegister,registerClassByFindClassId, registerClassByFindStudentId, getAllRegisters, deleteRegisterClassByRegisterId};
