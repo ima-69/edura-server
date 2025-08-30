@@ -104,4 +104,61 @@ const getPaymentsByClass = async (req, res) => {
     }
 }
 
-export {getPaymentsByStudent, getPaymentsByClass, createPayment}
+
+const PayThisMonthStudent = async (req, res) => {
+    try {
+        const { class_id, student_id } = req.query;
+
+        if (!class_id || !mongoose.Types.ObjectId.isValid(class_id)) {
+            return res.status(400).json({ message: "Invalid class id" });
+        }
+
+        if (!student_id || !mongoose.Types.ObjectId.isValid(student_id)) {
+            return res.status(400).json({ message: "Invalid student id" });
+        }
+
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const fifteenthDay = new Date(now.getFullYear(), now.getMonth(), 15);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+        // check paid this month
+        const existingPayment = await Payment.findOne({
+            student_id,
+            class_id,
+            payment_date: { $gte: startOfMonth, $lte: endOfMonth }
+        });
+
+        if (existingPayment) {
+            return res.status(400).json({
+                allowed: false,
+                message: "Already paid for this class this month",
+                payment: existingPayment
+            });
+        }
+
+        // if today > 15th not allowed
+        if (now > fifteenthDay) {
+            return res.status(400).json({
+                allowed: false,
+                message: "Payment deadline has passed (must pay before 15th of the month)"
+            });
+        }
+
+        return res.status(200).json({
+            allowed: true,
+            message: "Payment allowed",
+            range: { startOfMonth, endOfMonth }
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            message: "Internal server error" ,
+            error: err.message
+        });
+    }
+};
+
+
+export {getPaymentsByStudent, getPaymentsByClass, createPayment , PayThisMonthStudent}
