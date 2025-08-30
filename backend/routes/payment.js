@@ -5,8 +5,8 @@ import {auth} from "../middlewares/auth.js";
 const router = express.Router();
 
 
-router.post("/payment", createPayment);
-router.get("/paymentByStudent", getPaymentsByStudent);
-router.get("/paymentByClass", getPaymentsByClass);
+router.post("/payment",auth(true) ,createPayment);
+router.get("/paymentByStudent",auth(true) , getPaymentsByStudent);
+router.get("/paymentByClass",auth(true) , getPaymentsByClass);
 
 export default router;
