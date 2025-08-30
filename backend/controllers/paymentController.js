@@ -104,3 +104,4 @@ const getPaymentsByClass = async (req, res) => {
     }
 }
 
+export {getPaymentsByStudent, getPaymentsByClass, createPayment}
