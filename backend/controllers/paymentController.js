@@ -1,6 +1,7 @@
 import {Payment} from "../models/payments.js";
 import {Student} from "../models/student.js";
 import {Class} from "../models/class.js";
+import mongoose from "mongoose";
 
 
 const createPayment = async (req, res) => {
@@ -52,5 +53,25 @@ const createPayment = async (req, res) => {
             message: "Internal server error" ,
             error: error.message
         });
+    }
+}
+
+const getPaymentsByStudent = async (req, res) => {
+    try {
+        const id = req.query.student_id;
+
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid student id" });
+        }
+
+        const payments = await Payment.find({ id }).populate("class_id");
+        return res.status(200).json({
+            message: "Successfully get payments for student",
+            "data" : [payments]
+        }
+        );
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
