@@ -43,9 +43,14 @@ const createPayment = async (req, res) => {
 
         await payment.save();
 
-        return res.status(201).json({ message: "Payment successful", payment });
+        return res.status(201).json({
+            message: "Payment successful", payment
+        });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({
+            message: "Internal server error" ,
+            error: error.message
+        });
     }
 }
