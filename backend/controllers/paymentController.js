@@ -84,3 +84,23 @@ const getPaymentsByStudent = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 }
+
+const getPaymentsByClass = async (req, res) => {
+    try {
+        const  id  = req.query.class_id;
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid student id" });
+        }
+        const payments = await Payment.find({ id }).populate("student_id");
+
+        return res.status(200).json(payments);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Internal server error" ,
+            error: error.message
+        });
+    }
+}
+
