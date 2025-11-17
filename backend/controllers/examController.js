@@ -44,3 +44,5 @@ const createExam = async(req, res) => {
         })
     }
 }
+
+export {createExam}
