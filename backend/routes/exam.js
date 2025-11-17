@@ -5,7 +5,7 @@ import {createExam} from "../controllers/examController.js"
 
 const router = Router()
 
-router.post("/exam", auth(true), asyncHandler(createExam));
+router.post("/createExam", auth(true), asyncHandler(createExam));
 
 
 export default router

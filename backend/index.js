@@ -11,6 +11,7 @@ import chaptersRoute from "./routes/chapter.js";
 import { AppError } from "./utils/Error.js";
 import registerRoute from "./routes/register.js";
 import paymentRoute from "./routes/payment.js";
+import examRoute from "./routes/exam.js";
 const app = express();
 
 // Security
@@ -26,6 +27,7 @@ app.use("/api/classes", classesRoute);
 app.use("/api/chapters", chaptersRoute);
 app.use("/api/register",  registerRoute);
 app.use("/api/payments", paymentRoute);
+app.use("/api/exams", examRoute);
 
 // Not found handler
 app.use((req, _res, next) =>
