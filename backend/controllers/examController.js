@@ -4,6 +4,7 @@ import { exam } from "../models/exam";
 
 
 const examSchema = z.object({
+    class_id: z.string(),
     exam_name:z.string(),
     exam_description:z.string(),
     exam_type: z.int(),
@@ -41,6 +42,48 @@ const createExam = async(req, res) => {
         console.error(e);
         return res.status(200).json({
             "message": "fail to create server"
+        })
+    }
+}
+
+const examDeleteSchema = z.object(
+    {
+        exam_id: z.string()
+    }
+)
+
+const deleteExam = async (req, res) => {
+    try{
+        const examDelSchema = examDeleteSchema.safeParse(req.body);
+
+        // schema validation fail
+        if(!examDelSchema.success){
+            return res.status(401).json({
+                message: "schema validation fail",
+                error: examDelSchema.error.errors,
+            })
+        }
+
+        // delete the exam
+        const {exam_id} = examDelSchema.data()
+
+        const result = await mongoose.findByIdAndDelete(exam_id)
+
+        if(!result){
+            return res.status(404).json({
+                message: "exam delete fail"
+            })
+        }
+
+        return res.status(200).json({
+            message: "exam delete success"
+        })
+
+
+    } catch(e){
+        console.error(e)
+        return res.status(500).json({
+            message: "server fail"
         })
     }
 }
