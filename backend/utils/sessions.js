@@ -1,18 +1,27 @@
-
-let exam_session = []
+let exam_session = {};   
 
 function generateRandomId() {
-   const id = Math.random().toString(36).substring(2, 15);
+    const id = Math.random().toString(36).substring(2, 15);
 
-   if(exam_session.find(id)){
-    generateRandomId()
-   }else {
-    return id
-   }
+    if (exam_session[id]) {
+        return generateRandomId(); 
+    }
+    return id;
 }
 
-const CreateSessionId = (student_id) =>{
-    const sesId = generateRandomId()
-    exam_session.push(sesId)
-    return sesId
-}
+const createSessionId = (student_id,exam_id, duration_minutes) => {
+    const now = new Date();
+    
+    const expire_at = new Date(now.getTime() + duration_minutes * 60000);  // expiration time as a Date object
+
+    const sessId = generateRandomId();
+
+    exam_session[sessId] = {
+        student_id: student_id,
+        exam_id:exam_id,
+        expire_at: expire_at
+    };
+
+    return sessId;
+};
+
