@@ -14,6 +14,11 @@ const examSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.Mixed,  // accepts string or number
             required: true
         },
+        class_id: {
+            type: String,
+            requird: true
+        }
+        ,
         additional: {
             type: String
         },
