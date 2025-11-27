@@ -1,4 +1,20 @@
 import mongoose from "mongoose";
+import { int, string } from "zod";
+
+const mcqSchema = new mongoose.Schema({
+    question: {
+        type: String,
+        required: true
+    },
+    answers: {
+        type: [String], 
+        required: true
+    },
+    correct_answer: {
+        type: [Number], // (supports MSQ)
+        required: true
+    }
+});
 
 const examSchema = new mongoose.Schema(
     {
@@ -11,17 +27,24 @@ const examSchema = new mongoose.Schema(
             required: true
         },
         exam_type: {
-            type: mongoose.Schema.Types.Mixed,  // accepts string or number
+            type: mongoose.Schema.Types.Mixed, 
             required: true
         },
         class_id: {
             type: String,
-            requird: true
-        }
-        ,
+            required: true
+        },
         additional: {
             type: String
         },
+        duration: {
+            type: Number,   // minutes
+            required: true
+        },
+        mcq: {
+            type: [mcqSchema],  // array of MCQ objects
+            default: []
+        }
     },
     {
         timestamps: true

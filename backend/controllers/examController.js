@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import {z} from "zod";
 import { exam } from "../models/exam";
+import {} from "../utils/examRand";
+import {} from "../utils/sessions";
 
 
 const examSchema = z.object({
@@ -88,4 +90,7 @@ const deleteExam = async (req, res) => {
     }
 }
 
+const getexam = async(req,res) => {
+    
+}
 export {createExam, deleteExam}

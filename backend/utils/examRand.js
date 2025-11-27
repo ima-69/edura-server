@@ -26,6 +26,7 @@ function compareAnswers(correct_answers, user_answers) {
 }
 
 
+
 const checkMcqAnswers = (exam_id, user_answers_json) => {
     const correct = exams_rand_answers[exam_id];
     const user = JSON.parse(user_answers_json);
