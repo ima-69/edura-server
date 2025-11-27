@@ -25,3 +25,17 @@ const createSessionId = (student_id,exam_id, duration_minutes) => {
     return sessId;
 };
 
+const getSessionId = (session_id) => {
+    const session = exam_session[session_id]
+
+    if(!session){
+    }
+
+    const now = new Date();
+    const current_time = new Date(now.getTime * 60000);
+    if(session.expire_at < current_time){
+        return false
+    }
+
+    return true
+}
