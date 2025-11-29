@@ -10,6 +10,7 @@ export interface IStudent extends Document {
     password: string;
     student_status: boolean;
     date_of_birth?: Date;
+    classes?: mongoose.Types.ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
     comparePassword(password: string): Promise<boolean>;
@@ -58,7 +59,11 @@ const studentSchema = new Schema<IStudent>(
         date_of_birth: {
             type: Date
         },
-        
+        classes: {
+            type: [Schema.Types.ObjectId],
+            ref: 'Class',
+            default: []
+        }
     },
     {
         timestamps: true

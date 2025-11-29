@@ -6,6 +6,8 @@ import 'dotenv/config';
 import connectDB from "./cofiguration/db.js";
 import authRoute from "./routes/auth.js";
 import studentRoute from "./routes/student.js";
+import teacherRoute from "./routes/teacher.js";
+import adminRoute from "./routes/admin.js";
 import classesRoute from "./routes/classes.js";
 import chaptersRoute from "./routes/chapter.js";
 import { AppError } from "./utils/Error.js";
@@ -29,6 +31,8 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/student", studentRoute);
+app.use("/api/teacher", teacherRoute);
+app.use("/api/admin", adminRoute);
 app.use("/api/classes", classesRoute);
 app.use("/api/chapters", chaptersRoute);
 app.use("/api/register", registerRoute);
