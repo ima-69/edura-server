@@ -2,10 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "LMS-platform",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "tsx watch index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -22,6 +24,14 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.10.2",
+    "nodemon": "^3.1.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   }
 }

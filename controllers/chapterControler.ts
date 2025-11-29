@@ -1,0 +1,197 @@
+import { Request, Response } from "express";
+import { Chapters } from '../models/chapters.js';
+import { z } from 'zod';
+import { Class } from "../models/class.js";
+import mongoose from "mongoose";
+
+const chapterRegSchema = z.object(
+    {
+        class_id : z.string(),
+        chapter_url : z.array(z.string()),
+        chapter_name : z.string(),
+        chapter_description : z.string().optional(),
+        chapter_notes : z.array(z.string()),
+
+    }
+)
+
+export const createChapter = async (req: Request, res: Response) => {
+    try {
+        const chapterSchema = chapterRegSchema.safeParse(req.body);
+        if (!chapterSchema.success) {
+            return res.status(400).json({
+                "message": "Invalid inputs",
+                errors: chapterSchema.error.issues
+            })
+        }
+        // check class is already exists
+        const class_ = await Class.findById(chapterSchema.data.class_id);
+        if (!class_) {
+            return res.status(404).json({
+                "message": "Class not found"
+            })
+        }
+
+        const chapter = await Chapters.create(chapterSchema.data);
+        if (!chapter) {
+            return res.status(400).json({
+                "message": "chapter creation failed"
+            })
+        }
+
+        return res.status(200).json({
+            "message": "Chapter created successfully",
+            data: {
+                chapter: {
+                    chapter_id: chapter._id,
+                    class_id: chapter.class_id,
+                    chapter_name: chapter.chapter_name,
+                    chapter_notes: chapter.chapter_notes,
+                    chapter_url: chapter.chapter_url,
+                    chapter_description: chapter.chapter_description,
+                    chapter_status: chapter.chapter_status,
+                    created: chapter.createdAt,
+                    updated_at: chapter.updatedAt,
+                }
+            }
+        })
+    }catch(e: any){
+        console.log(e);
+        return res.status(500).json({
+            "message": "Internal Server Error",
+            "error": e.message
+        })
+    }
+}
+
+export const classChapters = async (req: Request, res: Response) => {
+    try {
+        const id = req.query.class_id as string;
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid class id" });
+        }
+
+        const check = await Class.findById(id);
+        if (!check) {
+            return res.status(404).json({
+                message: "Class not found",
+            });
+        }
+
+        const chapters = await Chapters.find({ class_id: check._id.toString() }).sort({ createdAt: -1 });
+
+        if (!chapters || chapters.length === 0) {
+            return res.status(404).json({
+                message: "No chapters found for this class",
+            });
+        }
+
+        const chapterArr = chapters.map((chapter) => ({
+            chapter_id: chapter._id,
+            class_id: chapter.class_id,
+            chapter_name: chapter.chapter_name,
+            chapter_notes: chapter.chapter_notes,
+            chapter_url: chapter.chapter_url,
+            chapter_description: chapter.chapter_description,
+            chapter_status: chapter.chapter_status,
+            created: chapter.createdAt,
+            updated_at: chapter.updatedAt,
+        }));
+
+        return res.status(200).json({
+            message: "Chapters filtered by class_id",
+            data: {
+                "chapters": {
+                    chapterArr
+                }
+            },
+        });
+    } catch (e: any) {
+        console.error(e);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            error: e.message,
+        });
+    }
+};
+
+export const deleteChapter = async (req: Request, res: Response) => {
+    try {
+        const id = req.query.chapter_id as string;
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid chapter id" });
+        }
+
+        const result = await Chapters.findByIdAndDelete(id);
+        if (!result) {
+            return res.status(404).json({
+                "message": "Chapter not found"
+            })
+        }
+
+        return res.status(200).json({
+            "message": "Chapter deleted successfully",
+        })
+    }catch(e: any){
+        console.log(e);
+        return res.status(500).json({
+            "message": "Internal Server Error",
+        })
+    }
+}
+
+const updateSchema = z.object({
+    class_id : z.string(),
+    chapter_url : z.array(z.string()),
+    chapter_name : z.string(),
+    chapter_description : z.string(),
+    chapter_notes: z.array(z.string()),
+})
+
+export const updateChapter = async (req: Request, res: Response) => {
+    try{
+        const id = req.query.chapter_id as string;
+        if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid chapter id" });
+        }
+
+        const passSchema = updateSchema.safeParse(req.body);
+        if (!passSchema.success) {
+            return res.status(400).json({
+                message: "Invalid inputs",
+                errors: passSchema.error.issues
+            });
+        }
+
+        const chapter = await Chapters.findByIdAndUpdate(id, passSchema.data, {new: true});
+        if (!chapter) {
+            return res.status(404).json({
+                "message": "Chapter not found"
+            })
+        }
+
+        return res.status(200).json({
+            "message": "Chapter updated successfully",
+            data: {
+                "chapter" : {
+                    chapter_id: chapter._id,
+                    class_id: chapter.class_id,
+                    chapter_name: chapter.chapter_name,
+                    chapter_notes: chapter.chapter_notes,
+                    chapter_url: chapter.chapter_url,
+                    chapter_description: chapter.chapter_description,
+                    chapter_status: chapter.chapter_status,
+                    created: chapter.createdAt,
+                    updated_at: chapter.updatedAt,
+                }
+            }
+        })
+    }catch(e: any){
+        console.log(e);
+        return res.status(500).json({
+            "message": "Internal Server Error",
+            "error": e.message
+        })
+    }
+}
+

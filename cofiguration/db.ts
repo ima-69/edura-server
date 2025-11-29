@@ -1,0 +1,11 @@
+import mongoose from 'mongoose';
+
+export default async function connectDB(uri: string): Promise<void> {
+  mongoose.set('strictQuery', true);
+
+  await mongoose.connect(uri, {
+    autoIndex: true,
+  });
+  console.log('MongoDB connected');
+}
+
