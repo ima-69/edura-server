@@ -65,6 +65,100 @@ const generateToken = (userId: string, email: string, firstName: string, lastNam
     );
 };
 
+// Universal Login - Automatically detects user type
+export const universalLogin = async (req: Request, res: Response) => {
+    try {
+        const validation = loginSchema.safeParse(req.body);
+        
+        if (!validation.success) {
+            const errors = validation.error.issues.map(issue => ({
+                field: issue.path[0],
+                message: issue.message
+            }));
+            return res.status(400).json({
+                success: false,
+                message: "Validation failed",
+                errors
+            });
+        }
+
+        const { email, password } = validation.data;
+
+        // Try to find user in all collections
+        let user: any = null;
+        let userType: string = '';
+
+        // Check Student
+        user = await Student.findOne({ email }).select("+password");
+        if (user) {
+            userType = 'student';
+        }
+
+        // Check Teacher if not found
+        if (!user) {
+            user = await Teacher.findOne({ email }).select("+password");
+            if (user) {
+                userType = 'teacher';
+            }
+        }
+
+        // Check Admin if not found
+        if (!user) {
+            user = await Admin.findOne({ email }).select("+password");
+            if (user) {
+                userType = 'admin';
+            }
+        }
+
+        // If no user found in any collection
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found. Please check your email address."
+            });
+        }
+
+        // Verify password
+        const isPasswordValid = await user.comparePassword(password);
+        
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid password"
+            });
+        }
+
+        // Generate token
+        const token = generateToken(
+            user._id.toString(),
+            user.email,
+            user.first_name,
+            user.last_name,
+            userType
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Login successful",
+            token,
+            data: {
+                id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                mobile: user.mobile,
+                role: userType
+            }
+        });
+    } catch (e: any) {
+        console.error(e);
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
 // Student Registration
 export const studentRegister = async (req: Request, res: Response) => {
     try {

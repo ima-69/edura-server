@@ -6,14 +6,18 @@ import {
     teacherRegister,
     teacherLogin,
     adminRegister,
-    adminLogin 
+    adminLogin,
+    universalLogin
 } from "../controllers/authController.js";
 
 const router = Router();
 
+// Universal login (auto-detect user type)
+router.post("/login", asyncHandler(universalLogin));
+
 // Student routes
 router.post("/register/student", asyncHandler(studentRegister));
-router.post("/login", asyncHandler(studentLogin));
+router.post("/login/student", asyncHandler(studentLogin));
 
 // Teacher routes
 router.post("/register/teacher", asyncHandler(teacherRegister));
