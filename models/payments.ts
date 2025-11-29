@@ -31,3 +31,4 @@ const paymentSchema = new Schema<IPayment>(
 
 export const Payment = mongoose.model<IPayment>("Payment", paymentSchema);
 
+

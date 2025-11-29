@@ -12,3 +12,4 @@ router.get("/paymentInThisMonth", auth(true), asyncHandler(payThisMonthStudent))
 
 export default router;
 
+

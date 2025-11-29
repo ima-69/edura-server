@@ -14,3 +14,4 @@ router.get("/registerClassFindId", auth(true), asyncHandler(registerClassByFindC
 
 export default router;
 
+

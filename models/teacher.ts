@@ -81,3 +81,4 @@ teacherSchema.methods.comparePassword = async function (p: string): Promise<bool
 
 export const Teacher = mongoose.model<ITeacher>("Teacher", teacherSchema);
 
+

@@ -82,3 +82,4 @@ examSchema.pre("save", function (next) {
 
 export default mongoose.model<IExam>("Exam", examSchema);
 
+

@@ -12,16 +12,16 @@ import {
 const router = Router();
 
 // Student routes
-router.post("/student/register", asyncHandler(studentRegister));
-router.post("/student/login", asyncHandler(studentLogin));
+router.post("/register/student", asyncHandler(studentRegister));
+router.post("/login", asyncHandler(studentLogin));
 
 // Teacher routes
-router.post("/teacher/register", asyncHandler(teacherRegister));
-router.post("/teacher/login", asyncHandler(teacherLogin));
+router.post("/register/teacher", asyncHandler(teacherRegister));
+router.post("/login/teacher", asyncHandler(teacherLogin));
 
 // Admin routes
-router.post("/admin/register", asyncHandler(adminRegister));
-router.post("/admin/login", asyncHandler(adminLogin));
+router.post("/register/admin", asyncHandler(adminRegister));
+router.post("/login/admin", asyncHandler(adminLogin));
 
 // Health check
 router.get("/check", asyncHandler(
