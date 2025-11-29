@@ -2,11 +2,12 @@ import mongoose, { Document } from "mongoose";
 export interface IStudent extends Document {
     first_name: string;
     last_name: string;
+    email: string;
+    mobile: string;
+    nic: string;
     password: string;
-    date_of_birth?: Date;
     student_status: boolean;
-    mobile?: string;
-    email?: string;
+    date_of_birth?: Date;
     createdAt?: Date;
     updatedAt?: Date;
     comparePassword(password: string): Promise<boolean>;

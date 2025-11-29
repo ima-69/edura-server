@@ -1,19 +1,21 @@
 import mongoose, { Document } from "mongoose";
-export interface IAdmin extends Document {
+export interface ITeacher extends Document {
     first_name: string;
     last_name: string;
     email: string;
     mobile: string;
     nic: string;
     password: string;
-    role: 'superadmin' | 'admin';
+    teacher_status: boolean;
+    subjects?: string[];
+    bio?: string;
     createdAt?: Date;
     updatedAt?: Date;
     comparePassword(password: string): Promise<boolean>;
 }
-export declare const Admin: mongoose.Model<IAdmin, {}, {}, {}, mongoose.Document<unknown, {}, IAdmin, {}, {}> & IAdmin & Required<{
+export declare const Teacher: mongoose.Model<ITeacher, {}, {}, {}, mongoose.Document<unknown, {}, ITeacher, {}, {}> & ITeacher & Required<{
     _id: mongoose.Types.ObjectId;
 }> & {
     __v: number;
 }, any>;
-//# sourceMappingURL=admin.d.ts.map
+//# sourceMappingURL=teacher.d.ts.map

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-const adminSchema = new Schema({
+const teacherSchema = new Schema({
     first_name: {
         type: String,
         required: [true, 'First name is required'],
@@ -35,24 +35,28 @@ const adminSchema = new Schema({
         required: [true, 'Password is required'],
         minLength: [6, 'Password must be at least 6 characters']
     },
-    role: {
-        type: String,
-        enum: ['superadmin', 'admin'],
-        default: 'admin'
+    teacher_status: {
+        type: Boolean,
+        default: true
+    },
+    subjects: {
+        type: [String],
+        default: []
+    },
+    bio: {
+        type: String
     },
 }, {
     timestamps: true
 });
-adminSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) {
+teacherSchema.pre("save", async function (next) {
+    if (!this.isModified("password"))
         return next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password, 10);
     next();
 });
-adminSchema.methods.comparePassword = function (password) {
-    return bcrypt.compare(password, this.password);
+teacherSchema.methods.comparePassword = async function (p) {
+    return bcrypt.compare(p, this.password);
 };
-export const Admin = mongoose.model("Admin", adminSchema);
-//# sourceMappingURL=admin.js.map
+export const Teacher = mongoose.model("Teacher", teacherSchema);
+//# sourceMappingURL=teacher.js.map
