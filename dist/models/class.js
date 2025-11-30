@@ -16,6 +16,10 @@ const classSchema = new Schema({
     },
     price: {
         type: Number
+    },
+    teacher: {
+        type: Schema.Types.ObjectId,
+        ref: 'Teacher'
     }
 }, {
     timestamps: true

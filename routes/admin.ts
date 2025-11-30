@@ -6,13 +6,12 @@ import { Class } from "../models/class.js";
 import { Student } from "../models/student.js";
 import { Teacher } from "../models/teacher.js";
 import { Admin } from "../models/admin.js";
-import Exam from "../models/exam.js";
 
 const router = Router();
 
 // Dashboard Stats
 router.get("/dashboard", auth(true, ['admin', 'superadmin']), asyncHandler(
-  async (req: AuthRequest, res: Response) => {
+  async (_req: AuthRequest, res: Response) => {
     // Get total counts
     const totalStudents = await Student.countDocuments();
     const totalTeachers = await Teacher.countDocuments();
@@ -277,7 +276,7 @@ router.delete("/courses/:courseId", auth(true, ['admin', 'superadmin']), asyncHa
 // Payment Management - Get All Payments
 router.get("/payments", auth(true, ['admin', 'superadmin']), asyncHandler(
   async (req: AuthRequest, res: Response) => {
-    const { page = 1, limit = 10, status = 'all' } = req.query;
+    const { page = 1, limit = 10 } = req.query;
     
     // TODO: Implement actual payment model and queries
     // This is a placeholder response
@@ -316,7 +315,7 @@ router.get("/payments", auth(true, ['admin', 'superadmin']), asyncHandler(
 
 // Reports - Recent Activity
 router.get("/reports/recent-activity", auth(true, ['admin', 'superadmin']), asyncHandler(
-  async (req: AuthRequest, res: Response) => {
+  async (_req: AuthRequest, res: Response) => {
     // Get recent enrollments
     const recentStudents = await Student.find()
       .select('first_name last_name email classes createdAt')
@@ -384,4 +383,5 @@ router.put("/profile", auth(true, ['admin', 'superadmin']), asyncHandler(
 ));
 
 export default router;
+
 

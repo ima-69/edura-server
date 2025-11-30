@@ -5,6 +5,7 @@ export interface IClass extends Document {
     categories?: string[];
     class_status: boolean;
     price?: number;
+    teacher?: mongoose.Types.ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 }

@@ -8,6 +8,7 @@ export interface IStudent extends Document {
     password: string;
     student_status: boolean;
     date_of_birth?: Date;
+    classes?: mongoose.Types.ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
     comparePassword(password: string): Promise<boolean>;

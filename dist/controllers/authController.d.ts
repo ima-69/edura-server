@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+export declare const universalLogin: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 export declare const studentRegister: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 export declare const teacherRegister: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
 export declare const adminRegister: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;

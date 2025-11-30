@@ -41,3 +41,4 @@ const checkMcqAnswers = (exam_id: string, user_answers_json: string): number => 
 export { storeExamAnswers, checkMcqAnswers };
 
 
+

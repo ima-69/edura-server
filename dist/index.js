@@ -6,6 +6,8 @@ import 'dotenv/config';
 import connectDB from "./cofiguration/db.js";
 import authRoute from "./routes/auth.js";
 import studentRoute from "./routes/student.js";
+import teacherRoute from "./routes/teacher.js";
+import adminRoute from "./routes/admin.js";
 import classesRoute from "./routes/classes.js";
 import chaptersRoute from "./routes/chapter.js";
 import { AppError } from "./utils/Error.js";
@@ -15,12 +17,19 @@ import examRoute from "./routes/exam.js";
 const app = express();
 // Security
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:4000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 // Routes
 app.use("/api/auth", authRoute);
 app.use("/api/student", studentRoute);
+app.use("/api/teacher", teacherRoute);
+app.use("/api/admin", adminRoute);
 app.use("/api/classes", classesRoute);
 app.use("/api/chapters", chaptersRoute);
 app.use("/api/register", registerRoute);

@@ -12,3 +12,4 @@ router.get("/classChapter", auth(true), asyncHandler(classChapters));
 export default router;
 
 
+

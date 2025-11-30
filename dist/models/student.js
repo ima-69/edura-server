@@ -42,6 +42,11 @@ const studentSchema = new Schema({
     date_of_birth: {
         type: Date
     },
+    classes: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Class',
+        default: []
+    }
 }, {
     timestamps: true
 });
